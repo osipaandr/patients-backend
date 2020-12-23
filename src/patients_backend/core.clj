@@ -4,6 +4,8 @@
             [patients-backend.models.patient :refer [Patient]]
             [patients-backend.routes :refer [clients-routes]]
             [reitit.ring :as r]
+            [ring.middleware.json :refer [wrap-json-response,
+                                          wrap-json-body]]
 ;;            [ring.adapter.jetty :as jetty]
             [org.httpkit.server :refer [run-server]])
   (:gen-class))
@@ -16,12 +18,13 @@
 
 (def app
   (r/ring-handler
-   (r/router clients-routes)))
+   (r/router clients-routes
+             {:data {:middleware [wrap-json-response,
+                                  wrap-json-body]}})))
 
 (defn -main
   [& args]
-  (db/set-default-db-connection! conn-conf)
-  (m/set-root-namespace! 'patients-backend.models.patient)
+  (connect-to-db)
   #_(jetty/run-jetty #'app {:port 3000})
   (run-server #'app {:port 3000, :join? false}))
 

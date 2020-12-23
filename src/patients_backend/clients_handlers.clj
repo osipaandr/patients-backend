@@ -1,30 +1,28 @@
 (ns patients-backend.clients-handlers
   (:require [toucan.db :as db]
-            [clojure.data.json :as json]
             [patients-backend.models.patient :refer [Patient]]))
 
-(defn date-parser
-  [_ value]
-  (if (= java.sql.Date (class value))
-    (.toString value)
-    value))
+(defn wrap-status
+  [code]
+  (fn [body]
+    {:status code
+     :body body}))
 
-(defn ok
-  [body]
-  {:status 200
-   :body body})
-
-(defn to-json
-  [x]
-  (json/write-str x
-                  :value-fn date-parser))
+(def ok (wrap-status 200))
+(def created (wrap-status 201))
 
 (defn get-clients
   [_]
-  (->> (db/select Patient)
-       (to-json)
-       (ok)))
+  (ok (db/select Patient)))
 
 (defn post-client
-  [_]
+  [req]
+  (created (db/insert! Patient (:body req))))
+
+(defn delete-client
+  [req]
+  (print "Not implemented yet"))
+
+(defn patch-client
+  [req]
   (print "Not implemented yet"))

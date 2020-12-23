@@ -7,8 +7,9 @@
                  [org.postgresql/postgresql "42.2.18"]
                  [toucan "1.15.1"]
                  [metosin/reitit "0.5.10"]
+                 [ring/ring-json "0.5.0"]
 ;;                 [ring/ring-jetty-adapter "1.8.2"]
-                 [http-kit "2.3.0"]
-                 [org.clojure/data.json "1.0.0"]]
+                 [http-kit "2.3.0"]]
+  :dev-dependencies  [[org.clojure/data.json "1.0.0"]]
   :main patients-backend.core
   :repl-options {:init-ns patients-backend.core})

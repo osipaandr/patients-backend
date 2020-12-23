@@ -2,7 +2,8 @@
   (:require [patients-backend.clients-handlers :refer :all]))
 
 (def clients-routes
-  [["/clients" {:get  get-clients
-                ;;:post post-client
-                }]])
+  [["/clients" {:get get-clients}]
+   ["/client" {:post   post-client
+               :delete delete-client
+               :patch  patch-client}]])
 
